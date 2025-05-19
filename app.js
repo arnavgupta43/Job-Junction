@@ -5,10 +5,11 @@ const app = express();
 const connectDb = require("./db/connect");
 const authRouter = require("./routes/auth");
 const jobsRouter = require("./routes/jobs");
+const authUSer = require("./middleware/authentication");
 app.use(express.json());
 // /routes
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/jobs", jobsRouter);
+app.use("/api/v1/jobs", authUSer, jobsRouter);
 
 // error handler
 const notFoundMiddleware = require("./middleware/error-handler");
