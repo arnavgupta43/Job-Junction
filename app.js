@@ -6,22 +6,24 @@ const connectDb = require("./db/connect");
 const authRouter = require("./routes/auth");
 const jobsRouter = require("./routes/jobs");
 const authUSer = require("./middleware/authentication");
+const cors = require("cors");
+const helmet = require("helmet");
+const rateLimiter = require("express-rate-limit");
 app.use(express.json());
 // /routes
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/jobs", authUSer, jobsRouter);
 
 // error handler
 const notFoundMiddleware = require("./middleware/error-handler");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
-app.get("/", (req, res) => {
-  res.send("Jobs Api");
-});
 
+app.use(helmet());
+app.use(cors());
+
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/jobs", authUSer, jobsRouter);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
-
 const port = process.env.PORT || 3000;
 
 const start = async () => {
