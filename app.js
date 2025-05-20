@@ -8,7 +8,6 @@ const jobsRouter = require("./routes/jobs");
 const authUSer = require("./middleware/authentication");
 const cors = require("cors");
 const helmet = require("helmet");
-const rateLimiter = require("express-rate-limit");
 app.use(express.json());
 // /routes
 
